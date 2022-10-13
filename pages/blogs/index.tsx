@@ -2,8 +2,14 @@ import { NextPage } from 'next'
 import { useEffect } from 'react'
 import axios from 'axios'
 
+
+type BlogsPost = {
+    id: number;
+    title: string;
+}
+
 type BlogsPageProps = {
-    posts: any[]
+    posts: BlogsPost[]
 }
 
 
@@ -14,17 +20,9 @@ const BlogsPage: NextPage<BlogsPageProps> = ({ posts }) => {
 };
 
 export async function getStaticProps() {
-    
+    const { data: posts } = await axios.get<BlogsPost>("https://my-json-server.typicode.com/typicode/demo/posts")
     return {
-        props: {
-            posts: [
-                {
-                    id: 1, 
-                    title: "Hello World!"
-                
-                }
-            ]
-        }
+        props: { posts }
     }
 }
 
